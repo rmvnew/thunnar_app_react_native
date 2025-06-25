@@ -14,8 +14,8 @@ import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }: any) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('rmvnew@gmail.com');
+    const [password, setPassword] = useState('12345');
 
     const showToast = (type: 'success' | 'error' | 'info', title: string, message?: string) => {
         Toast.show({
