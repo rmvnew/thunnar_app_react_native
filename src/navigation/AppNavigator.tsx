@@ -1,15 +1,26 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useAuth } from '../contexts/AuthContext';
+
 import LoginScreen from '../screens/LoginScreen';
 import DrawerNavigator from './DrawerNavigator';
+import UserFormScreen from '../screens/UserFormScreen';
 
 const Stack = createNativeStackNavigator();
 
-const AppNavigator = () => (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Main" component={DrawerNavigator} />
-    </Stack.Navigator>
-);
+export default function AppNavigator() {
+    const { isAuthenticated } = useAuth();
 
-export default AppNavigator;
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {!isAuthenticated ? (
+                <Stack.Screen name="Login" component={LoginScreen} />
+            ) : (
+                <>
+                    <Stack.Screen name="Drawer" component={DrawerNavigator} />
+                    <Stack.Screen name="UserForm" component={UserFormScreen} />
+                </>
+            )}
+        </Stack.Navigator>
+    );
+}

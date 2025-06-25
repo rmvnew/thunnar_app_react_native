@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import api from '../services/api'; // se quiser buscar avatar no S3
+import { CommonActions } from '@react-navigation/native';
+import { useAuth } from '../contexts/AuthContext';
 
 interface User {
     user_id: number;
@@ -15,27 +17,35 @@ const CustomDrawer = (props: any) => {
     const [user, setUser] = useState<User | null>(null);
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
+    const { logout } = useAuth();
+
+
     useEffect(() => {
         const loadUser = async () => {
             const userData = await AsyncStorage.getItem('user');
-            if (userData) {
-                const parsedUser = JSON.parse(userData);
-                setUser(parsedUser);
+            if (!userData) {
+                // Não force logout automático
+                console.warn('Usuário não autenticado, mas não vamos redirecionar ainda');
+                return;
+            }
 
-                // Se tiver avatar, buscar URL no S3
-                if (parsedUser.avatar) {
-                    try {
-                        const { data } = await api.post('/s3/path', { path: parsedUser.avatar });
-                        setAvatarUrl(data.url);
-                    } catch (err) {
-                        console.warn('Erro ao buscar avatar no S3');
-                        setAvatarUrl(null);
-                    }
+            const parsedUser = JSON.parse(userData);
+            setUser(parsedUser);
+
+            if (parsedUser.avatar) {
+                try {
+                    const { data } = await api.post('/s3/path', { path: parsedUser.avatar });
+                    setAvatarUrl(data.url);
+                } catch {
+                    console.warn('Erro ao buscar avatar no S3');
+                    setAvatarUrl(null);
                 }
             }
         };
+
         loadUser();
     }, []);
+
 
     const getUserInitials = (name: string) => {
         const parts = name.trim().split(' ');
@@ -44,11 +54,7 @@ const CustomDrawer = (props: any) => {
     };
 
     const handleLogout = async () => {
-        await AsyncStorage.clear();
-        props.navigation.reset({
-            index: 0,
-            routes: [{ name: 'Login' }],
-        });
+        await logout();
     };
 
 
