@@ -5,10 +5,16 @@ import { Feather } from '@expo/vector-icons';
 import CustomDrawer from '../components/CustomDrawer';
 import HomeScreen from '../screens/HomeScreen';
 import UsersScreen from '../screens/UsersScreen';
+import { useAuth } from '../contexts/AuthContext';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator() {
+
+
+    const { userData } = useAuth();
+    const user = userData()
+
     return (
         <Drawer.Navigator
             drawerContent={props => <CustomDrawer {...props} />}
@@ -30,7 +36,7 @@ export default function DrawerNavigator() {
                     ),
                 }}
             />
-            <Drawer.Screen
+            {!user?.isUser && <Drawer.Screen
                 name="Users"
                 component={UsersScreen}
                 options={{
@@ -39,7 +45,7 @@ export default function DrawerNavigator() {
                         <Feather name="users" size={size} color={color} />
                     ),
                 }}
-            />
+            />}
         </Drawer.Navigator>
     );
 }
