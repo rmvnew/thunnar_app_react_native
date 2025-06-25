@@ -10,12 +10,14 @@ import {
     Platform
 } from 'react-native';
 import Toast from 'react-native-toast-message';
-import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../services/api';
+import { useAuth } from '../contexts/AuthContext'; // 👈 novo
 
-const LoginScreen = ({ navigation }: any) => {
+const LoginScreen = () => {
     const [email, setEmail] = useState('rmvnew@gmail.com');
     const [password, setPassword] = useState('12345');
+    const { login } = useAuth(); // 👈 novo
 
     const showToast = (type: 'success' | 'error' | 'info', title: string, message?: string) => {
         Toast.show({
@@ -38,16 +40,12 @@ const LoginScreen = ({ navigation }: any) => {
 
             await AsyncStorage.setItem('token', access_token);
             await AsyncStorage.setItem('refresh_token', refresh_token);
-            await AsyncStorage.setItem('user', JSON.stringify({ user_id, name, profile, avatar }));
+
+            await login({ user_id, name, profile, avatar }); // 👈 login via contexto
 
             showToast('success', 'Login realizado com sucesso');
-            navigation.reset({
-                index: 0,
-                routes: [{ name: 'Main' }],
-            });
 
         } catch (error: any) {
-            // Se for 404, o backend retorna { message: "User do not exist" }
             if (error.response?.status === 404) {
                 return showToast('error', 'Usuário não encontrado', error.response.data.message);
             }
@@ -101,7 +99,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         paddingHorizontal: 30,
-        backgroundColor: 'rgba(0,0,0,0.5)', // semitransparente para destacar inputs
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     title: {
         fontSize: 32,

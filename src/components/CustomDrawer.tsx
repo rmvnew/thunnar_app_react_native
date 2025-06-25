@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import api from '../services/api'; // se quiser buscar avatar no S3
 import { CommonActions } from '@react-navigation/native';
+import { useAuth } from '../contexts/AuthContext';
 
 interface User {
     user_id: number;
@@ -15,6 +16,9 @@ interface User {
 const CustomDrawer = (props: any) => {
     const [user, setUser] = useState<User | null>(null);
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+    const { logout } = useAuth();
+
 
     useEffect(() => {
         const loadUser = async () => {
@@ -50,14 +54,7 @@ const CustomDrawer = (props: any) => {
     };
 
     const handleLogout = async () => {
-        await AsyncStorage.clear();
-
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Login' }],
-        });
-
-
+        await logout();
     };
 
 
