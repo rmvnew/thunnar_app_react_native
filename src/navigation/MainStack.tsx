@@ -5,9 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
 import DrawerNavigator from './DrawerNavigator'; // <- Seu menu lateral
 import UserFormScreen from '../screens/UserFormScreen'; // <- Fora do Drawer
-import UsersScreen from '../screens/UsersScreen';
 
-const Stack = createNativeStackNavigator();
+import ProductListScreen from '../screens/ProductListScreen';
+import ProductFormScreen from '../screens/ProductFormScreen';
+import { RootStackParamList } from './types';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function MainStack() {
     return (
@@ -15,6 +18,9 @@ export default function MainStack() {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Drawer" component={DrawerNavigator} />
             <Stack.Screen name="UserForm" component={UserFormScreen} />
+            <Stack.Screen name="ProductList" component={ProductListScreen} />
+            <Stack.Screen name="ProductForm" component={ProductFormScreen} />
         </Stack.Navigator>
+
     );
 }

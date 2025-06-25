@@ -197,8 +197,9 @@ export default function UsersScreen({ navigation }: any) {
 
             <TouchableOpacity
                 style={styles.fab}
+
                 onPress={() => {
-                    alert('Adicionar Usuário');
+
                     navigation.navigate('UserForm')
                 }}
             >
@@ -236,7 +237,7 @@ const styles = StyleSheet.create({
     fab: {
         position: 'absolute',
         bottom: 24,
-        right: 24,
+        right: 10,
         backgroundColor: '#007bff',
         width: 56,
         height: 56,
@@ -244,6 +245,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: '#000',
+        marginBottom: 10,
         shadowOpacity: 0.3,
         shadowOffset: { width: 0, height: 2 },
         elevation: 4
