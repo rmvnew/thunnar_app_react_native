@@ -29,7 +29,7 @@ type User = {
     user_email: string;
     user_profile_id: number;
     company_id?: number;
-    avatar?: string;
+    user_avatar?: string;
 };
 
 export default function UserFormScreen({ route, navigation }: any) {
@@ -55,9 +55,12 @@ export default function UserFormScreen({ route, navigation }: any) {
                 const resp = await api.get('/company');
                 setCompanies(resp.data.items || resp.data);
             } catch { }
-            if (editingUser?.avatar) {
+
+
+            if (editingUser?.user_avatar) {
                 try {
-                    const r = await api.post('/s3/path', { path: editingUser.avatar });
+                    const r = await api.post('/s3/path', { path: editingUser.user_avatar });
+
                     setAvatarUri(r.data.url);
                 } catch { }
             }
