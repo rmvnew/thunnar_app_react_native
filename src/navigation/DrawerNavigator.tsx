@@ -26,7 +26,7 @@ export default function DrawerNavigator() {
             }}
         >
             <Drawer.Screen
-                name="Drawer"  /* usamos “Drawer” só pra agrupar todas, mas no types isso é só container */
+                name="Home"
                 component={HomeScreen}
                 options={{
                     title: 'Início',
@@ -36,7 +36,7 @@ export default function DrawerNavigator() {
 
             {!user?.isUser && (
                 <Drawer.Screen
-                    name="UserForm"
+                    name="Users"
                     component={UsersScreen}
                     options={{
                         title: 'Usuários',

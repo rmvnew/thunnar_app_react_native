@@ -17,19 +17,18 @@ export default function AppNavigator() {
     const { isAuthenticated } = useAuth();
 
     return (
+        // src/navigation/AppNavigator.tsx
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             {!isAuthenticated ? (
                 <Stack.Screen name="Login" component={LoginScreen} />
             ) : (
                 <>
-                    {/* aqui vive o Drawer */}
                     <Stack.Screen name="Drawer" component={DrawerNavigator} />
-
-                    {/* essas duas telas estão no mesmo Stack do Drawer: */}
                     <Stack.Screen name="UserForm" component={UserFormScreen} />
                     <Stack.Screen name="ProductForm" component={ProductFormScreen} />
                 </>
             )}
         </Stack.Navigator>
+
     );
 }

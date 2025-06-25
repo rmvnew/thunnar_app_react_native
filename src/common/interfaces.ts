@@ -129,6 +129,12 @@ export interface ProductInterface {
     created_at?: Date
     product_location?: string
     product_return_status: number
+    product_ncm: string,
+    product_cfop: string,
+    product_cest: string,
+    product_unit: string,
+    product_origin: number,
+    product_cst: string,
 }
 
 export interface SaleItem {
