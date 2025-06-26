@@ -364,7 +364,7 @@ export default function ProductFormScreen() {
                     }
                 </TouchableOpacity>
             </ScrollView>
-            <Toast />
+
         </>
     );
 }
